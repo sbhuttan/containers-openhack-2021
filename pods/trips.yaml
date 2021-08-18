@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: trips
+  labels:
+    app: trips
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: trips
+  template:
+    metadata:
+      labels:
+        app: trips
+    spec:
+      containers:
+      - name: trips
+        image: registryylj7757.azurecr.io/tripinsights/trips:latest
+        ports:
+        - containerPort: 80
+        env:
+        - name: SQL_USER
+          value: "sqladminyLj7757"
+        - name: SQL_PASSWORD
+          value: "pT8mv5Hb3"
+        - name: SQL_SERVER
+          value: "sqlserverylj7757.database.windows.net"

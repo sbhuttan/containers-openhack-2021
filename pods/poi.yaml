@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: poi
+  labels:
+    app: poi
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: poi
+  template:
+    metadata:
+      labels:
+        app: poi
+    spec:
+      containers:
+      - name: poi
+        image: registryylj7757.azurecr.io/tripinsights/poi:latest
+        ports:
+        - containerPort: 80
+        env:
+        - name: SQL_USER
+          value: "sqladminyLj7757"
+        - name: SQL_PASSWORD
+          value: "pT8mv5Hb3"
+        - name: SQL_SERVER
+          value: "sqlserverylj7757.database.windows.net"
+        - name: ASPNETCORE_ENVIRONMENT
+          value: "Staging"
