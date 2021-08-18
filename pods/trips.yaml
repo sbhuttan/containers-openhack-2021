@@ -5,7 +5,7 @@ metadata:
   labels:
     app: trips
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: trips
@@ -26,3 +26,7 @@ spec:
           value: "pT8mv5Hb3"
         - name: SQL_SERVER
           value: "sqlserverylj7757.database.windows.net"
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"

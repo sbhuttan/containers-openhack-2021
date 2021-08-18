@@ -5,7 +5,7 @@ metadata:
   labels:
     app: poi
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: poi
@@ -27,4 +27,8 @@ spec:
         - name: SQL_SERVER
           value: "sqlserverylj7757.database.windows.net"
         - name: ASPNETCORE_ENVIRONMENT
-          value: "Staging"
+          value: "Production"
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
