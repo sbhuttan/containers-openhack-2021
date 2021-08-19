@@ -20,16 +20,25 @@ spec:
         image: registryylj7757.azurecr.io/tripinsights/poi:latest
         ports:
         - containerPort: 80
-        env:
-        - name: SQL_USER
-          value: "sqladminyLj7757"
-        - name: SQL_PASSWORD
-          value: "pT8mv5Hb3"
-        - name: SQL_SERVER
-          value: "sqlserverylj7757.database.windows.net"
-        - name: ASPNETCORE_ENVIRONMENT
-          value: "Production"
         resources:
           limits:
             memory: "128Mi"
             cpu: "500m"
+        volumeMounts:
+        - name: keyvault
+          mountPath: /secrets
+          readOnly: true
+      volumes:
+      - name: keyvault
+        flexVolume:
+          driver: "azure/kv"
+          secretRef:
+            name: keyvault-sp
+          options:
+            keyvaultname: "Team3KeyVault21"
+            keyvaultobjectnames: "sql-user;sql-password;sql-server-name"
+            keyvaultobjecttypes: "secret;secret;secret"
+            keyvaultobjectaliases: "SQL_USER;SQL_PASSWORD;SQL_SERVER"
+            resourcegroup: "teamResources"
+            subscriptionid: 89eb5de7-be0a-4488-8b3a-a78358b2d3bb
+            tenantid: b6995c8f-8cfc-4e17-8898-892cb00eb98a
