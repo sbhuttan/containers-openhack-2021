@@ -20,12 +20,25 @@ spec:
         image: registryylj7757.azurecr.io/tripinsights/tripviewer:latest
         ports:
         - containerPort: 80
-        env:
-        - name: TRIPS_API_ENDPOINT
-          value: "http://trips-service.default.svc.cluster.local:8080"
-        - name: USERPROFILE_API_ENDPOINT
-          value: "http://userprofile-service.default.svc.cluster.local:8080"
         resources:
           limits:
             memory: "128Mi"
             cpu: "500m"
+        volumeMounts:
+        - name: keyvault
+          mountPath: /secrets
+          readOnly: true
+      volumes:
+      - name: keyvault
+        flexVolume:
+          driver: "azure/kv"
+          secretRef:
+            name: keyvault-sp
+          options:
+            keyvaultname: "Team3KeyVault21"
+            keyvaultobjectnames: "trip-api-endpoint;userprofile-api-endpoint"
+            keyvaultobjecttypes: "secret;secret"
+            keyvaultobjectaliases: "TRIPS_API_ENDPOINT;USERPROFILE_API_ENDPOINT"
+            resourcegroup: "teamResources"
+            subscriptionid: 89eb5de7-be0a-4488-8b3a-a78358b2d3bb
+            tenantid: b6995c8f-8cfc-4e17-8898-892cb00eb98a
